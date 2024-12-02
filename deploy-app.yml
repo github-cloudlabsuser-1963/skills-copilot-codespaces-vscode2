@@ -1,0 +1,33 @@
+# Create a GitHub action to email a report from a file at 6 a.m. daily
+name: Email Report
+on:
+  schedule:
+    - cron: '0 6 * * *'
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Send email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.PASSWORD }}
+          subject: 'Daily Report'
+          body: 'Please find the attached report.'
+          to: ${{ secrets.EMAIL }}
+          attachments: 'report.txt'
+ 
+ In this example, the GitHub action uses the  dawidd6/action-send-mail  action to send an email. The action will run at 6 a.m. every day and send an email with the subject “Daily Report,” the body “Please find the attached report,” and the attached file  report.txt . 
+ The email server is  smtp.gmail.com , and the port is  465 . The GitHub secrets  EMAIL  and  PASSWORD  store the email address and password for the email account. 
+ Conclusion 
+ GitHub Actions is a powerful tool that allows you to automate your workflows. You can use GitHub Actions to run tasks, tests, and deployments automatically based on triggers such as pushes, pull requests, or schedules. 
+ In this tutorial, you learned how to create a GitHub action that runs on a schedule. You created a workflow file that uses the  schedule  event to run the action at a specific time or interval. 
+ If you have any questions or feedback, please let us know in the comments. 
+ Is there a way to run the action on a schedule, but only if there are new commits? 
+ You can use the  workflow_run  event to trigger an action when another workflow is completed. This way, you can run a scheduled job only if there are new commits. 
+ For example, you can create a workflow that runs on a schedule and triggers another workflow when it completes. The triggered workflow can check if there are new commits and run the job only if there are new commits. 
+ Here’s an example of how you can do this:
